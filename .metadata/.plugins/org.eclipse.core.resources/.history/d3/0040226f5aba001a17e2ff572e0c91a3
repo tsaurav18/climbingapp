@@ -1,0 +1,199 @@
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   <link rel="stylesheet" href="./css/main.css">
+
+   
+
+</head>
+
+<body>
+
+        <div class="header">
+            <h1 class="logo">Climbing</h1>
+            <span><i class='fas fa-user-alt' 
+                    style='font-size:42px; float:right; color:black;display:inline-block;line-height:80px;padding-right:17px;'></i></span>
+        </div>
+         <div class="userBox">
+            <div class="boxWrapper">
+                <div class="logout-btn" onclick="logout()">Logout</div>
+                  <div class="admin-btn" onclick="admin()">Admin</div>
+            </div>
+        </div>
+          <div  class="container-1">        
+          <div  id="container-2">        
+    </div>
+      </div>
+        <div class="curve"> </div>
+        <div class="btn-container">
+            <div class="list-btn-container">
+                <div class="list-btn">
+                   <h3 onclick="listPage()">리스트</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 row-btn" onclick="recordPage()">기록</div>
+                <div class="col-xs-6 row-btn" onclick="myListMainPage()">조회</div>
+                <div class="col-xs-6 row-btn" onclick="friendListPage()" >친구</div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Copyright 2020 Climbing All Right Reserved</p>
+        </div>
+   
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script src="./js/image.js"></script>
+<script>
+    $(document).ready(function() {
+	
+	Page.init(start);
+	
+	
+});
+var pagectx = {};
+    start=(usrobj)=>{
+        pagectx.usrobj = usrobj;
+      
+        var params = "id="+usrobj.id;
+        AJAX.call("./jsp/mountainFetch.jsp", params, function(data){
+     	   var posts = JSON.parse(data.trim()); 
+     	
+     	   var list = posts;
+     	
+     	   pagectx.posts = list;   	  
+     	   generate(list);
+      
+        });
+    }
+        
+     generate=(list)=>{
+   	 var listArray=[];  //array
+   	 var strr1 = "";  	 
+  	 for (var i=0; i<list.length; i++) {  //page generation
+   		 listArray.push(list[i]);  		
+   		 }   	 
+  
+   	 var randomItem1= listArray[Math.floor(Math.random()*listArray.length)];   	
+   		strr1= getFeedstrr1(randomItem1);
+   	 $(".container-1").html(strr1);
+   	
+    }
+   getFeedstrr1=(feed)=>{
+	   
+    	 	var strr="";
+    	  	 if(feed.images!=null){
+    			for(var i=0; i<feed.images.length;i++){		
+    				
+    				strr+="  <div id='container-2' onclick='showMountainPost("+feed.no+")' style='background-image:url(\"" +getImageUrl(feed.images[i], feed) + "\")'>";
+    				
+    				strr+="<div class='text'>이 달의 산</div>";
+    	 
+    	 		 strr+="<div class='text-2'>"+feed.mountain_name+"</div>"; 
+    	 	 	strr+=" </div>";  
+    			}
+    			}
+    	  	
+    	 return strr;
+    	 }
+   
+   
+   getImageUrl=(filename, feed)=>{
+	   
+		if(feed.id){
+			return "/climbing/users/"+feed.id+"/"+filename;
+		}
+		else{
+			return "/climbing/users/"+pagectx.usrobj.id+"/"+filename;
+		}
+	}
+   
+   showMountainPost = (postNo)=>{
+	   var selfeed = getFeed(postNo);
+		if(selfeed ==null){
+			alert("선택된 피드가 없습니다.");
+			return;
+		}
+		
+		Page.go("mountainPostDetail.html", selfeed);
+		
+   }
+     
+	function getFeed(postNo){
+
+		for(var i = 0;i<pagectx.posts.length;i++){
+			if(pagectx.posts[i].no ==postNo){
+				return pagectx.posts[i];
+				
+			}
+		}
+		return null;
+	}
+	
+	
+	
+    listPage=()=>{
+        window.location.href="listMain.html";
+    }
+     recordPage=()=>{
+        window.location.href="record.html";
+    }
+     
+     myListMainPage=()=>{
+    	 window.location.href="myListMain.html"; 
+     }
+     friendListPage=()=>{
+    	 window.location.href="friendList.html"; 
+     }
+    
+     
+     
+    logout =()=>{
+        var res = confirm("Are you sure to logout");
+        if(res==true){
+            var url= "./jsp/logout.jsp";
+            AJAX.call(url, null, function(data){        
+                window.location.href="signin.html";
+            });
+        }
+        
+    }
+    
+    
+    admin=()=>{
+    	if(pagectx.usrobj.id == "demon@gmail.com"){
+    		window.location.href="admin.html";
+    	}
+    	else{
+    		alert("접근 권한 없습니다. ");
+    	}
+    }
+    </script>
+    
+        <script>
+            $(document).ready(function(){
+                $(".fas").click(function(){
+                    $(".userBox").toggleClass("active")
+                })
+            })
+        </script>
+    

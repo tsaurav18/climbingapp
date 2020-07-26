@@ -1,0 +1,58 @@
+
+<html>
+<head>
+<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="./css/core.css">
+<title>Climbing</title>
+<style>
+.logo {
+	position: absolute;
+	left: 0px; top:42%; width: 80%; margin: 0 10%;
+	height:50px; line-height: 50px;
+	text-align: center;
+	font-size:1.5em;
+	font-weight: bold;
+	color: #36D;
+}
+.page-footer {
+	positon: absolute;
+	left: 0px; bottom:7%;width: 80%;
+	margin: 0 10%;
+	text-align:center;
+	font-size: 0.8em;
+	color: #999;
+}
+</style>
+</head>
+<body>
+	<div class="logo">Climbing</div>
+	
+	<div class="page-footer">Copyright: Climbing.com, 2020</div>
+</body>
+</html>
+<script  type="text/javascript"  src="./js/jquery-1.12.0.min.js"></script>
+<script  type="text/javascript" src="./js/core.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	Page.getUsrobj(start);
+   
+	
+});
+
+
+function start(usrobj){
+	setTimeout(function(){
+		$("body").fadeOut();
+		
+		setTimeout(function(){
+			var url = (usrobj ==null) ? "signin.html" : "main.html";
+			window.location.href = url;		
+		},800);
+	},2000);
+}
+
+</script>
+

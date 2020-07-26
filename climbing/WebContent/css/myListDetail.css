@@ -1,0 +1,194 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+#containerbox{
+height: 900px;
+width:100%;
+}
+.container1 {
+   
+    height: 30%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 40%;
+	background-position: center center;
+    margin: 0;
+    padding: 0;
+      background-image:url("../images/san1-2.JPG");
+      
+      
+}
+
+.header {
+    width: 100%;
+    overflow: hidden;
+    height: 80px;
+    
+}
+.fas{
+	    margin-left: 12px;
+}
+@media screen and (min-height:0px) and (max-height:670px){
+   .container1{
+    min-height: 134vh;}
+}
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow-y: scroll;
+}
+
+.logo {
+    color: black;
+    font-size: 38px;
+    font-family: verdana;
+    float: left;
+    line-height: 80px;
+    padding-left: 77px;
+    font-weight: 500;
+}
+
+   
+
+    
+
+    
+    .active{
+        display:block
+    }
+    
+
+		.box1{
+			width: 50%;
+			height: 30px;
+			position: absolute;
+			left: 25%;
+			top: 1.6%;
+		}
+
+		#menu-area {
+			position: absolute;
+			border-top: 1px solid #FFF;
+			border-bottom: 1px solid #FFF;
+		}
+		#contents-area {
+			float: left;
+			width: 100%;
+			margin: 2.5% 1.6%;
+		}
+		
+		
+		/*.image:before {
+			content: "";
+			display: block;
+			width: 150%;
+			padding-bottom: 40%;
+		}*/
+		
+		.left{
+			float: left;
+		}
+
+		.right{
+			float: right;
+		}
+
+		.center{
+			text-align: center;
+		}
+	
+		
+		.box{
+			float:left;
+			width:50%;
+			padding: 1%; 
+			box-sizing: border-box;
+		}
+
+		.box2{
+			float:left;
+			width:30%;
+			padding: 1%; 
+			box-sizing: border-box;
+		}
+
+		.box3{
+			float:left;
+			width:30%;
+			padding: 1%; 
+			box-sizing: border-box;
+			text-align: center;
+			line-height:100px;	
+			}
+
+		.grid1{
+			float: left;
+			width:100%;
+			height: auto;
+			background-size: cover;
+		}
+		.grid{
+			float:left;
+			width:100%;
+			border-bottom: 1px solid #DDD;
+		}
+	
+
+.container-rateme {
+   
+
+    width: 205px;
+    margin: 0 auto;
+    padding: 0;
+    height: 62px;
+   
+    position: absolute;
+    top: 550px;
+
+
+
+}
+.wrapper-box {
+    margin-top: 24px;
+    font-size: 18px;
+
+}
+.post-btn{
+    text-align: center;
+    margin: 17px 10px;
+    background-color:  rgb(78, 78, 86);
+    color: white;
+    width: 88px;
+    float: right;
+    padding: 10px;
+      border-radius: 10px;
+    border: none;
+}
+
+.mdb-rating .rate-popover {
+  color: grey; }
+
+.mdb-rating .live {
+  color: black; }
+
+.mdb-rating .oneStar {
+  color: #44370f; }
+
+.mdb-rating .twoStars {
+  color: #96781e; }
+
+.mdb-rating .threeStars {
+  color: #e2b52e; }
+
+.mdb-rating .fourStars {
+  color: #f1ba12; }
+
+.mdb-rating .fiveStars {
+  color: #f3cb06; }
+
+.mdb-rating .amber-text {
+  color: #ffc107 !important; }
+

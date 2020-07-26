@@ -1,0 +1,196 @@
+
+<html>
+<head>
+	<title>CLIMBLING</title>
+	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0" charset="utf-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+ <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+	   <link rel="stylesheet" href="./css/myListDetail.css">
+	   
+	 
+
+
+</head>	
+<body>
+<div id="containerbox">
+<!-- <div class="container1">
+        <div class="header">
+         <span><i class='fas fa-angle-left' onclick="goBack()"
+                        style='font-size:70px; float:left; color:black,inline-block;line-height:80px;'></i></span>
+            <h1 class="logo">Climbing</h1>       
+        </div>
+        </div>
+        
+        
+	<div id="content-area" class="section">
+		<div class="grid"> 
+    			<div class="box">
+    				<h4>Mountain Name:</h4></div>
+    			<div class="box"><h4>Text</h4></div>
+    	</div>
+    	<div class="grid"> 
+    			<div class="box">
+    				<h4>Course Name :</h4></div>
+    			<div class="box"><h4>Text</h4></div>
+    	</div>
+    	<div class="grid"> 
+    			<div class="box">
+    				<h4>Taken Time :</h4></div>
+    			<div class="box"><h4>1hour</h4></div>
+    	</div>
+    	<div class="grid">
+  			<div class="box2">
+    			<h2>등급:</h2>
+    		</div> -->
+    	<!-- 	 <div class="box2">
+    		<span class="star-input">
+			<span class="input">
+    		<input type="radio" name="star-input" value="1" id="p1">
+    		<label for="p1">D</label>
+    		<input type="radio" name="star-input" value="2" id="p2">
+    		<label for="p2">C</label>
+    		<input type="radio" name="star-input" value="3" id="p3">
+    		<label for="p3">B</label>
+    		<input type="radio" name="star-input" value="4" id="p4">
+    		<label for="p4">A</label>
+    		<input type="radio" name="star-input" value="5" id="p5">
+    		<label for="p5">S</label>
+  			</span>
+  			<div class="box3">
+    				<h1><output for="star-input"><b>0</b></output></h1></div>
+    				</span>
+    				
+    		</div>
+		</div>
+	</div> 
+ -->
+ 
+
+	</div>
+	 
+     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- mdb -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">
+
+    <!-- mdb javascript -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+  <script  type="text/javascript" src="./js/rating.js" ></script>
+</body>
+</html>
+
+
+
+	<script src="./js/jquery-1.12.0.min.js"></script>
+	<!-- <script src="./js/star.js"></script>  -->
+	<script  type="text/javascript" src="./js/core.js"></script>
+
+
+<script>
+$(document).ready(function(){
+	   Page.init(start, 'myListDetail.html');
+   });
+   pagectx = {};
+   start =(usrobj, myList)=>{
+	   pagectx.usrobj = usrobj;
+	   pagectx.myList = myList;
+	   
+	   console.log(pagectx);
+	  var str = getFeedStr(myList);
+	
+	    
+	  $("#containerbox").html(str);
+   }
+   
+   function getFeedStr(posts){
+	    console.log(posts);
+	  
+	   	var str="";
+	      	str+="<div class='container1'>";
+	    	str+="<div class='header'>";
+		    str+="<span><i class='fas fa-angle-left' style='font-size:70px; float:left; color:black,inline-block;line-height:80px;' onclick='goBack()'></i></span>"; 
+		   str+="<h1 class='logo'>Climbing</h1>";
+		   str+="</div></div>";
+	   
+	   str+="<div class='section' id='content-area'>";
+	   		str+= "<div class='grid'>";
+		str +="<div class='box'><h4>Mountain Name:</h4></div>";
+		str+="<div class='box'><h4>"+posts.m_name+"</h4></div></div>";
+		str+= "<div class='grid'>";
+		str +="<div class='box'><h4>course Name:</h4></div>";
+		str+="<div class='box'><h4>"+posts.m_course+"</h4></div></div>";
+		str+= "<div class='grid'>";
+		str +="<div class='box'><h4>Taken Name:</h4></div>";
+		str+="<div class='box'><h4>"+posts.m_taken_time+"</h4></div></div>";
+		
+		
+		/* str+="<div class='box2'>";
+	
+			 str+="<div class='box3'>"; 
+			str+="<h1><output for='star-input'><b>"+posts.score+"</b></output></h1></div></span>";
+			str+="</div></div></div>"; */
+			str+="<div class='grid'>";
+			
+			 str+="<div class='box'>";
+			 str+="<h3>등급:</h3></div>";
+			 
+			str+="<div class='box'><h4>"+posts.score+"</h4></div>";
+			str+="</div>";
+			str+="<div class='post-btn' onclick='deleteItem("+posts.no+")'>Delete</div>";
+			
+			str+="</div>";
+        
+	   	return str;
+	   	
+	   }
+	   	
+getImageUrl=(filename)=>{
+
+		return "users/"+pagectx.usrobj.id+"/"+filename;
+	}
+	
+var flag = false;
+   deleteItem =(deleteNo)=>{
+	   
+	   var params = "no="+deleteNo;
+	   AJAX.call("./jsp/myListDelete.jsp", params, function(data){
+		  var res= data.trim();
+		  alert("글이 정상적으로 삭제되었습니다.");
+		  flag =true;
+		 window.location.href="myListMain.html";
+	   });
+	   
+  
+	   
+   }
+   
+    goBack=()=>{
+    
+    	window.history.back();
+     
+    }
+    </script>
+    
+ 
+ 

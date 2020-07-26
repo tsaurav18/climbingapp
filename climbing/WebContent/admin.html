@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   <link rel="stylesheet" href="./css/listPostEdit.css">
+    <style>
+    .header{
+       background: cadetblue;
+        height: 75px;
+    }
+.img-pane {
+	float: left;
+	width: 100%;
+	padding: 10px 4px; 
+	box-sizing: border-box;
+}
+.img-pane .grid-33 {
+	width:100%;
+	height:100%;
+	box-sizing : border-box;	
+	padding: 1px;
+}
+.img-pane .icon-box {
+	position: relative;
+} 
+.img-pane .icon-box .icon {
+	z-index: 10;
+    position: absolute;
+    right: 8px; top: 8px;
+    width: 16px; height: 16px;
+    cursor: pointer;
+}
+.flex-embed {
+	position: relative;
+	overflow: hidden;
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.flex-embed:before {
+	content: "";
+	display: block;
+	width: 100%;
+	padding-bottom: 75%;
+}
+
+.addmountain{
+display: none
+}
+.list{
+display: none
+}
+.container-1{
+display:none}
+
+.mystyle1 {
+  width: 100%;
+  padding: 25px;
+  background-color: coral;
+ height: 400px;
+  font-size: 25px;
+  box-sizing: border-box;
+  position: absolute;
+  display:block
+}
+.mystyle2 {
+  width: 100%;
+  padding: 25px;
+  background-color: skyblue;
+ height: 400px;
+  font-size: 25px;
+  box-sizing: border-box;
+  position: absolute;
+  display:block
+}
+
+.mystyle3 {
+  width: 100%;
+  padding: 25px;
+  background-color: skyblue;
+ height: 400px;
+  font-size: 25px;
+  box-sizing: border-box;
+  position: absolute;
+  display:block
+}
+
+.btn-del {
+transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('./images/ico_delete2.png');
+    color: white;
+    z-index: 13;
+    float: right;
+ }
+/*  .container-1{
+	
+	  height: 247px;
+    width: 100%;
+} 
+  
+  */
+   h3{ text-align: center;}
+
+#container-2{
+	 cursor: pointer;
+	  height:250px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+   </style>
+</head>
+
+<body>
+    <div class="container">
+    
+    <div class="header">
+            <span><i class='fas fa-angle-left'
+                    style='font-size:70px; float:left; color:black,inline-block;line-height:80px;'  onclick="goBack()"></i></span>
+            <h1 class="logo">Admin Page</h1>
+
+        </div>
+    </div>
+     <h3>Mountain Table</h3> 
+       <br>
+     <li class="add_m_btn" style="cursor: pointer;" onclick="addMountain()">Add mountain</li>
+     <li class="delete_m_btn" style="cursor: pointer;" onclick="deletemountain()">delete mountain</li>
+      
+        
+  
+<div id="addMountain" class="addmountain" >
+        <div class="img-pane"></div>
+        <div class="image-upload"><i class="fas fa-plus " onclick="ImageUploader.add()"></i></div>
+
+        <div class="content-box">
+
+            <input type="text" class="row-box" id="name" placeholder="mountain name" /><br>
+            <input type="text" class="row-info" id="m_height" placeholder="mountain height" />
+      
+        <div class="message"><button class="btn1" id="post-btn"  onclick="addMountainsDone()">Add </button>  </div>
+    </div>
+    </div>
+    
+       <div class="container-1" id="container1" >        
+  
+    
+    </div>
+ 
+    
+    
+    
+      <h3>postMountain Table</h3> 
+       <br>
+        <li class="delete_m_btn1" style="cursor: pointer;" onclick="fetchmountain()">delete post mountain </li>
+        
+     
+     <div class="list" id="contents-area" >
+   
+    </div>
+ 
+
+    
+</body>
+
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script src="./js/image.js"></script>
+ <script>
+    $(document).ready(function() {
+	Page.init(start);
+	
+});
+var pagectx= {};
+function start(usrobj){
+        ImageUploader.init(".img-pane");
+	     pagectx.usrobj = usrobj;
+	
+
+
+addMountainsDone=()=>{
+	  var mount_name = $("#name").val().trim();
+		if (mount_name == "") {
+			alert("내용을  작성해 주세요.");
+			$("#name").focus();
+			return;
+	    }
+	    var m_height = $("#m_height").val().trim();
+	    var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+	    
+	    var addmountain = { 
+                mountain_name:mount_name,
+ 				images: ImageUploader.get(), 
+				m_height:m_height,             
+                ts:utc
+};
+
+var params = new FormData();
+params.append("id",pagectx.usrobj.id);
+params.append("content",JSON.stringify(addmountain));
+params=ImageUploader.appendParams(params, "images");
+
+ 
+//var params = "id="+pagectx.usrobj.id+"&title="+title+"&name="+name+"&feed="+JSON.stringify(feed)+"&score="+score;
+/* var params = "id="+pagectx.usrobj.id+"&feed="+JSON.stringify(mountainPost); */
+AJAX.formCall("./jsp/mountainsAdd.jsp", params, function(data){
+alert("작성하신 글이 업로드되었습니다.");
+window.location.href="admin.html";
+
+});
+
+}  //add mountian finihed
+//mountain table delete
+
+
+   var params = "id="+usrobj.id; 
+  
+        AJAX.call("./jsp/mountainFetch.jsp", params, function(data){
+     	   var posts = JSON.parse(data.trim()); 
+     	 
+     	   var list = posts;
+     	 
+     	   pagectx.posts = list;   	  
+     	   generate(list);
+     	 
+        });
+
+  
+    function generate(lists){
+        	  console.log(lists);
+    		var str = "";
+    		for (var i=0; i<lists.length; i++) {  //page generation
+    			str+= getFeedstrr1(lists[i])
+    			
+    		}
+    		$("#container1").html(str);
+    	}
+     
+     
+   function getFeedstrr1(post){
+	
+    	 	var str="";
+    	  	
+    	
+    				 str += "<div class='btn-del' onclick='deleteM_post(\"" + post.no + "\")'></div>";
+    	 
+    	 		 str+="<div class='text-2'>"+post.mountain_name+"</div>"; 
+    	 		str+="<div class='text-2'>"+post.m_height+"</div>"; 
+     
+    				  	
+    	 return str;
+    	 }
+
+}
+
+
+//postmountain table delete 기능
+
+
+ AJAX.call("./jsp/postFetch.jsp", null, function(data){
+	   var posts = JSON.parse(data.trim());
+	 
+	   var list = posts;
+	   if(list.length>0){
+	   pagectx.posts = list;
+	  
+	   generate(list);
+	
+	   }else{
+		   var strr2 = "there is no post available";
+		   $("#contents-area").html(strr2); 
+	   }
+	
+   });
+  
+  
+ generate=(list)=>{
+		var str = "";
+		for (var i=0; i<list.length; i++) {  //page generation
+			str+= getFeedStr(list[i])
+			
+		}
+		$("#contents-area").html(str);
+	}
+ 
+ getFeedStr=(post)=>{
+	 var str="";
+	 str+="<ul>";
+	 str+="<li class='list_class' id='list_item' onclick='showPost("+post.no+")'>제목:"+post.title+"<span class='date_span'> 날짜:"+post.ts+"</span></li>";
+	 str += "<div class='btn-del' onclick='deletepost(\"" + post.no + "\")'></div>";
+	 str+="</ul>";
+	return str;	 
+	 
+ }
+ deletepost =(deleteNo)=>{
+	   console.log(deleteNo);
+	   var params = "no="+deleteNo;
+	   AJAX.call("./jsp/listMainDelete.jsp", params, function(data){
+		  var res= data.trim();
+		  alert("글이 정상적으로 삭제되었습니다.");
+		
+		 window.location.href="admin.html";
+	   });
+	   
+
+	   
+ }
+ 
+ deleteM_post =(deleteM_post)=>{
+	 var params = "no="+deleteM_post;
+	   AJAX.call("./jsp/mountainDelete.jsp", params, function(data){
+		  var res= data.trim();
+		  alert("글이 정상적으로 삭제되었습니다.");
+		
+		 window.location.href="admin.html";
+	   });
+	   
+
+	   
+ }
+
+
+goBack=()=>{
+    window.history.back();
+}
+
+
+    </script>
+
+
+<script> 
+ 
+    function addMountain(){
+        var ele = document.getElementById("addMountain");
+        ele.classList.toggle("mystyle1");
+    }
+    
+    function deletemountain(){
+        var elem = document.getElementById("container1");
+        elem.classList.toggle("mystyle2");
+    }
+    function fetchmountain(){
+        var eleme = document.getElementById("contents-area");
+        eleme.classList.toggle("mystyle3");
+    }
+    
+  
+
+
+    
+</script>

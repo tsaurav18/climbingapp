@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   <link rel="stylesheet" href="./css/listPostEdit.css">
+    <style>
+.img-pane {
+	float: left;
+	width: 100%;
+	padding: 10px 4px; 
+	box-sizing: border-box;
+}
+.img-pane .grid-33 {
+	width:100%;
+	heigth:100%;
+	box-sizing : border-box;	
+	padding: 1px;
+}
+.img-pane .icon-box {
+	position: relative;
+} 
+.img-pane .icon-box .icon {
+	z-index: 10;
+    position: absolute;
+    right: 8px; top: 8px;
+    width: 16px; height: 16px;
+    cursor: pointer;
+}
+.flex-embed {
+	position: relative;
+	overflow: hidden;
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.flex-embed:before {
+	content: "";
+	display: block;
+	width: 100%;
+	padding-bottom: 75%;
+}
+   </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="img-pane"></div>
+        <div class="image-upload"><i class="fas fa-plus " onclick="ImageUploader.add()"></i></div>
+
+        <div class="content-box">
+
+            <input type="text" class="row-box" id="name" placeholder="mountain name" /><br>
+            <input type="text" class="row-info" id="avg_time" placeholder="Average time" />
+        </div>
+        <div class="message"><button class="btn1" id="post-btn" value="Post" onclick="addMountainsDone()">Add </button>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script src="./js/image.js"></script>
+<script>
+    $(document).ready(function() {
+	Page.init(start);
+	
+});
+var pagectx= {};
+function start(usrobj){
+        ImageUploader.init(".img-pane");
+	     pagectx.usrobj = usrobj;
+	
+}
+
+addMountainsDone=()=>{
+	  var mount_name = $("#name").val().trim();
+		if (mount_name == "") {
+			alert("내용을  작성해 주세요.");
+			$("#name").focus();
+			return;
+	    }
+	    var avg_time = $("#avg_time").val().trim();
+	    var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+	    
+	    var addmountain = {
+    			
+               
+                mountain_name:mount_name,
+ 				images: ImageUploader.get(), 
+				avg_time:avg_time,             
+                ts:utc
+};
+
+var params = new FormData();
+params.append("id",pagectx.usrobj.id);
+params.append("content",JSON.stringify(addmountain));
+params=ImageUploader.appendParams(params, "images");
+
+ 
+//var params = "id="+pagectx.usrobj.id+"&title="+title+"&name="+name+"&feed="+JSON.stringify(feed)+"&score="+score;
+/* var params = "id="+pagectx.usrobj.id+"&feed="+JSON.stringify(mountainPost); */
+AJAX.formCall("./jsp/listPostEdit.jsp", params, function(data){
+alert("작성하신 글이 업로드되었습니다.");
+window.location.href="main.html";
+
+});
+
+}
+
+}
+
+
+
+    </script>

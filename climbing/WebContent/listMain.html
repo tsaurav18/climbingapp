@@ -1,0 +1,209 @@
+
+<html>
+
+<head>
+ <meta charset="UTF-8">
+   <!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
+    <title>List_main</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+   <link rel="stylesheet" href="css/listMain.css">
+   
+<body>
+        <div class="header">
+            <span><i class='fas fa-angle-left' onclick="goBack()"
+                    style="font-size:70px; float:left; color:black;display:inline-block;line-height:80px;"></i></span>
+            <h1 class="logo">Climbing</h1>
+            <span><i class='fas fa-pen'
+                    style="font-size:45px; float:right; color:black;display:inline-block;line-height:80px;" onclick="listPostEditPage()"></i></span>
+         
+        </div>       
+  <div  id="container-2">        
+    </div>
+      <div  id="container-3">
+    </div>
+
+    <div class="list" id="contents-area">
+   
+    </div>
+   <!--  <div class="page-box">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><span class="page-link" onclick="pagenext()""><i class="fas fa-angle-left"></i></span></li>
+               &nbsp; &nbsp; &nbsp; &nbsp;
+                <li class="page-item"><span class="page-link" onclick="pagenext()"><i class="fas fa-angle-right"></i></span></li>
+            </ul>
+        </nav>
+    </div>
+   -->
+   
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script src="./js/image.js"></script>
+<script>
+  $(document).ready(function(){
+	 Page.init(start);
+ });
+ var pagectx = {};
+ start =(usrobj)=>{
+	 pagectx.usrobj = usrobj;
+/*    var params = "id="+usrobj.id; */
+   AJAX.call("./jsp/postFetch.jsp", null, function(data){
+	   var posts = JSON.parse(data.trim());
+	 
+	   var list = posts;
+	   if(list.length>0){
+	   pagectx.posts = list;
+	  
+	   generate(list);
+	   makemount(list); 
+	   }else{
+		   var strr2 = "there is no post available";
+		   $("#container-3").html(strr2); 
+	   }
+	
+   });
+  
+  
+ }
+ makemount=(list)=>{
+	
+	 var listArray=[];  //array
+	
+	 
+	 for (var i=0; i<list.length; i++) {  //page generation
+		 listArray.push(list[i]);
+		
+		 } 
+	 
+	 var randomItem1= listArray[Math.floor(Math.random()*listArray.length)];
+	 var randomItem2= listArray[Math.floor(Math.random()*listArray.length)];
+	 
+	
+		  var strr1= getFeedstrr1(randomItem1); 
+		var strr2= getFeedstrr2(randomItem2);
+	
+	 $("#container-2").html(strr1);
+	 $("#container-3").html(strr2); 
+ }
+  
+ getFeedstrr1=(feed)=>{
+	
+ 	var strr="";
+  	 if(feed.images!=null){
+		for(var i=0; i<feed.images.length;i++){
+			
+ 		strr+="  <div class='img-container1' onclick='showPost("+feed.no+")' style='background-image:url(\"" +getImageUrl(feed.images[i], feed) + "\")'>";
+ 	    
+ 		strr+=" <div class='text-1'>Mountain of Month</div>";
+ 		strr+="<div class='text-2'>"+feed.title+"</div>";
+ 	 	strr+=" </div>";  
+		}}
+  	
+ return strr;
+ }
+ getFeedstrr2=(feed)=>{
+		
+	 	var strr="";
+	
+	  	 if(feed.images!=null){
+	 		for(var i=0; i<feed.images.length;i++){
+	 	
+	 		strr+="<div class='img-container2' onclick='showPost("+feed.no+")' style='background-image:url(\"" +getImageUrl(feed.images[i],feed) + "\")' >"; 
+	 		strr+="<div class='text-3'>Recommend for you</div>";
+	 		strr+="<div class='text-4'>"+feed.title+"</div>";
+	 		strr+="</div>"; 
+			}}
+	 return strr;
+	 }
+ generate=(list)=>{
+		var str = "";
+		for (var i=0; i<list.length; i++) {  //page generation
+			str+= getFeedStr(list[i])
+			
+		}
+		$("#contents-area").html(str);
+	}
+ 
+ getFeedStr=(post)=>{
+	 var str="";
+	 str+="<ul>";
+	 str+="<li class='list_class' id='list_item' onclick='showPost("+post.no+")'>제목:"+post.title+"<span class='date_span'> 날짜:"+post.ts+"</span></li>";
+	 str+="</ul>";
+	return str;	 
+	 
+ }
+  
+     goBack=()=>{
+        window.history.back();
+    }
+   showPost=(postNo)=>{
+	   var selfeed = getFeed(postNo);
+		if(selfeed ==null){
+			alert("선택된 피드가 없습니다.");
+			return;
+		}
+		
+		Page.go("listPostDetail.html", selfeed);
+		
+	}
+	function getFeed(postNo){
+
+		for(var i = 0;i<pagectx.posts.length;i++){
+			if(pagectx.posts[i].no ==postNo){
+				return pagectx.posts[i];
+				
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+  pagenext=()=>{
+	/*   var params = "id="+pagectx.usrobj.id;
+	   AJAX.call("./jsp/postFetch.jsp", params, function(data){
+
+		   var posts = JSON.parse(data.trim());
+			  console.log(posts);
+		   pagectx.posts = posts;
+		   var list = posts;
+		   pagectx.posts = list;
+		  
+		   generate(list);
+		  
+	   }); */
+	   alert("there is no any page");
+  }
+    
+  getImageUrl=(filename, feed)=>{
+	
+		if(feed.name){
+			return "/climbing/users/"+feed.name+"@gmail.com/"+filename;
+		}
+		else{
+			return "/climbing/users/"+pagectx.usrobj.id+"/"+filename;
+		}
+	}
+      
+    listPostEditPage =()=>{
+        window.location.href="listPostEdit.html";
+    }
+    </script>

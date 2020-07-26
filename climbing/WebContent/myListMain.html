@@ -1,0 +1,128 @@
+
+<html>
+<head>
+<title>CLIMBLING</title>
+<meta name=viewport
+	content="width=device-width, initial-scale=1, user-scalable=0"
+	charset="utf-8">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="./css/myListMain.css">
+</head>
+<body>
+
+	<div class="header">
+		<span><i class='fas fa-angle-left' onclick="goBack()"
+			style='font-size: 70px; float: left; color: black, inline-block; line-height: 80px;'></i></span>
+		<h1 class="logo">Climbing</h1>
+	</div>
+	<div class="grid1">
+		<div class="image" style="background-image: url('./images/view.jpg');"></div>
+	</div>
+	<div id="content-area">
+		<div class="grid2">
+			<div class="left">
+				<h3>산 이름</h3>
+			</div>
+			<div class="right">
+				<h3>소요시간</h3>
+			</div>
+		</div>
+
+		<div id="contents-area"></div>
+		<div class="grid" onclick="myListDetailPage()">
+			<!-- <div class="left"><h3>불암산</h3></div>
+    				<div class="right"><h3>1시간 30분</h3></div> -->
+		</div>
+
+	</div>
+
+
+</body>
+</html>
+
+
+
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script>
+  $(document).ready(function(){
+	 Page.init(start)
+ });
+  
+ var pagectx = {};
+ start =(usrobj)=>{
+	 pagectx.usrobj = usrobj;
+	 
+   var params = "id="+usrobj.id;
+   AJAX.call("./jsp/listPostFetch.jsp", params, function(data){
+
+	   var posts = JSON.parse(data.trim());
+	
+	  /*  pagectx.posts = posts; */
+	   var list = posts;
+	   if(list.length>0){
+	   pagectx.posts = list;
+	  
+	   generate(list);
+   }else{
+	   var strr2 = "There is no post available";
+	   $("#contents-area").html(strr2); 
+   }
+   });
+ }
+ generate=(list)=>{
+		var str = "";
+		for (var i=0; i<list.length; i++) {  //page generation
+			str+= getFeedStr(list[i])
+			
+		}
+		 
+		$("#contents-area").html(str);
+	}
+ 
+ getFeedStr=(post)=>{
+	 var str="";
+	str+= "<div class='grid' onclick='myListDetailPage("+post.no+")'>";
+	str+= "<div class='left'><h3>"+post.m_name+"</h3></div>";
+	str+= "<div class='right'><h3>"+post.m_taken_time+"</h3></div>";
+		
+	 str+="</div>";
+	return str;	 
+	 
+ }
+  
+   
+ myListDetailPage=(postNo)=>{
+	   var selfeed = getFeed(postNo);
+		if(selfeed ==null){
+			alert("선택된 피드가 없습니다.");
+			return;
+		}
+		
+		Page.go("myListDetail.html", selfeed);
+		
+	}
+	function getFeed(postNo){
+
+		for(var i = 0;i<pagectx.posts.length;i++){
+			if(pagectx.posts[i].no == postNo){
+				return pagectx.posts[i];
+				
+			}
+		}
+		return null;
+	}
+
+	  goBack=()=>{
+	        window.history.back();
+	    }  
+
+/*   myListDetailPage=()=>{
+  	window.location.href="myListDetail.html";
+  }
+ */
+    </script>

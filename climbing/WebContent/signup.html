@@ -1,0 +1,121 @@
+
+ 
+ <html>
+
+<head>
+
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/signup.css">
+   
+</head>
+
+<body>
+ <div class="header">
+        <h1 class="logo">Climbing</h1>
+    </div>
+    <div class="container">
+        <div class="signup-text">Sign up</div>
+        <div class="signup-box">
+     
+            <input type="text"  placeholder="Username" id="id"><br>
+            <input type="password"  placeholder="password" id="password"><br>
+            <input type="password" placeholder="Confirm Password" id="password2"><br>
+            <input type="text"  placeholder="Nick Name" id="nick"><br>
+           <span style="color:white;">DateBirth</span> <br><input type="text" class="dob" name="year" id="year" placeholder="971121">
+           
+            <select name="gender" id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br>
+            
+           <input type="submit" onclick="signup()" placeholder="Sign Up">
+   
+           <div id="genderValue"></div>
+        </div>
+
+
+    </div>
+    <div class="footer">
+        <p>Copyright 2020 Climbing All Right Reserved</p>
+    </div>
+</body>
+
+</html>
+
+
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+
+<script>
+ 
+function signup(){
+
+	var id =$("#id").val().trim();
+	if(id==""){
+		alert("이메일 주소를 입력해주세요 ");
+		$("#id").focus();
+		return;
+	}
+	var ps =$("#password").val().trim();
+	if(ps==""){
+		alert("페스워드 입력해주세요 ");
+		$("#password").focus();
+		return;
+	}
+	var ps2 =$("#password2").val().trim();
+	if(ps2!=ps){
+		alert("입력된 두개의 페스워드가 다릅니다.");
+		$("#password2").focus();
+		return;
+	}
+	var nick =$("#nick").val().trim();
+	if(nick==""){
+		alert("닉네임을 입력해주세요 ");
+		$("#nick").focus();
+		return;
+	}
+         var gender =$("#gender").val().trim();
+      
+	if(gender==""){
+		alert("성별을 입력해주세요 ");
+		$("#gender").focus();
+		return;
+	}
+	   var dob= $("#year").val().trim();
+	   if(dob==""){
+			alert("생년월일을 입력해주세요 ");
+			$("#dob").focus();
+			return;
+		}
+	
+        var url = "./jsp/signup.jsp?id="+id+"&ps="+ps+"&nick="+nick+"&gend="+gender+"&dob="+dob;
+       
+	AJAX.call(url,null,function(data){
+		var code =data.trim();
+		console.log(code);
+		
+		if(code =="EX"){
+			alert("이미 가입된 아이디입니다.");
+		}else if(code== "ER"){
+			alert("회원가입시에 에러가 발생하였습니다.");
+		}else{
+			alert("회원가입이 완료되었습니다.");
+			window.location.href="signin.html";
+		}
+	
+
+});
+     
+	}
+	
+
+	
+
+</script>
+ 
+ 

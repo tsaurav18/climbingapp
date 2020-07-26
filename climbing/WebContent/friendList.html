@@ -1,0 +1,118 @@
+
+<html>
+<head>
+	<title>CLIMBLING</title>
+	<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=0" charset="utf-8">
+	  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   <link rel="stylesheet" href="./css/friendList.css">
+   <style>
+   
+   #contact-form{
+   height: 100px;
+   width:100px;
+   
+   }
+   </style>
+</head>	
+<body>
+	 <div class="header">
+            <span><i class='fas fa-angle-left' onclick="goBack()"
+                    style="font-size:70px; float:left; color:black;display:inline-block;line-height:80px;"></i></span>
+            <h1 class="logo">Climbing</h1>
+            
+        </div>       
+	<div class="grid1">
+	<center><div class="image" style="background-image:url('./images/searchF.JPG');"></div></center>
+	</div>
+	<div id="content-area">
+		
+    	
+	</div>
+
+	
+
+</body>
+</html>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+<script src="./js/image.js"></script>
+<script>
+$(document).ready(function() {
+	Page.init(start);
+});
+
+var pagectx = {};
+function start(usrobj) {
+	pagectx.usrobj = usrobj;
+	
+	var params = "id=" + usrobj.id;
+	AJAX.call("jsp/userFetch.jsp", params, function(data) {
+		var list = JSON.parse(data.trim());
+		pagectx.list = list;
+	
+		generate(list);
+	});
+}
+
+function generate(list) {
+	var str = "";
+	for (var i=0; i<list.length; i++) {	// page generation
+		str += getUserStr(list[i]);
+	}
+	$("#content-area").html(str);
+}
+
+function getUserStr(user) {
+      
+	if (pagectx.usrobj.id == user.id) return "";
+		
+	var str = "";
+	
+	str += "<div class='grid' onclick='send_id('"+user.id+"')'>";
+	 str += "<div class='grid'>"; 
+	str += "<img src='./images/men.JPG' width='60'align='left' border='0px'>";
+	str += "<div class='left' id='sendid' ><h4>"+user.name+"<br>"+user.id+"</h4></div>";
+	if(user.score<=2){
+		str += "<img src='./images/c.JPG' width='40'align='right' border='0px'>";
+	}
+	else if(user.score==3){
+		str += "<img src='./images/b.JPG' width='40'align='right' border='0px'>";
+	}
+	else if(user.score==4){
+		str += "<img src='./images/a.JPG' width='40'align='right' border='0px'>";
+	}
+	else if(user.score==5){
+		str += "<img src='./images/s.JPG' width='40'align='right' border='0px'>";
+	}
+    str += "<div class='right'><h3>등급</h3></div>";
+	str += "</div>"; 
+	
+
+	
+	return str;
+}
+
+
+send_id=(usrid)=>{	  
+   var url = "./jsp/contact.jsp?id="+usrid;
+	
+	AJAX.call(url,null, function(data){
+		
+	 window.location.href="./jsp/contact.jsp" ;
+	 
+
+	});
+     	
+}
+
+  goBack=()=>{
+        window.history.back();
+    }
+    
+    </script>
+    
+
+    
+    

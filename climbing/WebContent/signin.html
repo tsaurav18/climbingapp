@@ -1,0 +1,86 @@
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+    <title>signin</title>
+    <link rel="stylesheet" href="./css/signin.css">
+
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="logo">Climbing</h1>
+    </div>
+    <div class="container">
+        <div class="signup-text">Sign in</div>
+        <div class="signup-box">
+            <input type="text" name="username" placeholder="Username" id="id"><br>
+            <input type="password" name="password" placeholder="password" id="ps"><br>
+            <input type="submit" onclick="signin()" value="SignIn">
+          
+            <p id="signup-btn" onclick="signupfun()">Signup</p>
+
+
+        </div>
+
+
+    </div>
+    <div class="footer">
+        <p>Copyright 2020 Climbing All Right Reserved</p>
+    </div>
+</body>
+
+</html>
+<script src="./js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="./js/core.js"></script>
+
+<script>
+signupfun =()=>{
+        window.location.href="signup.html";
+    }
+ 
+function signin(){
+
+	var id =$("#id").val().trim();
+	if(id==""){
+		alert("이메일 주소를 입력해주세요 ");
+		$("#id").focus();
+		return;
+	}
+	var ps =$("#ps").val().trim();
+	if(ps==""){
+		alert("페스워드 입력해주세요 ");
+		$("#ps").focus();
+		return;
+	}
+	
+	
+        var url = "jsp/signin.jsp?id="+id+"&ps="+ps;
+	AJAX.call(url,null,function(data){
+		var code =data.trim();
+                console.log(code);
+		if(code =="EX"){
+			alert("이미 로그인 하셨습니다.");
+		}else if(code== "PS"){
+			alert("페스워드가 일치하지 않습니다..");
+		}
+                else if(code== "NA"){
+			alert("회원정보를 찾을 수 없습나다.");
+		}else{
+			alert("로그인 완료되었습니다.");
+			window.location.href="main.html";
+		}
+	
+
+});
+     
+	}
+	
+
+	
+
+</script>
